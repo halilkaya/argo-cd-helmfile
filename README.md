@@ -50,7 +50,7 @@ Consider these implications for your environment and act appropriately.
     args:
       - wget -qO /custom-tools/argo-cd-helmfile.sh https://raw.githubusercontent.com/travisghansen/argo-cd-helmfile/master/src/argo-cd-helmfile.sh &&
         chmod +x /custom-tools/argo-cd-helmfile.sh &&
-        wget -qO /custom-tools/helmfile https://github.com/roboll/helmfile/releases/download/v0.138.7/helmfile_linux_amd64 &&
+        wget -qO /custom-tools/helmfile https://github.com/roboll/helmfile/releases/download/v0.144.0/helmfile_linux_amd64 &&
         chmod +x /custom-tools/helmfile
     volumeMounts:
       - mountPath: /custom-tools
