@@ -5,6 +5,8 @@
 # HELM_TEMPLATE_OPTIONS - helm template --help
 # HELMFILE_BINARY - custom path to helmfile binary
 # HELMFILE_GLOBAL_OPTIONS - helmfile --help
+# HELMFILE_GLOBAL_AWS_ACCOUNT_ID - AWS account ID for helm registry login (optional)
+# HELMFILE_GLOBAL_AWS_REGION - AWS account ID for helm registry login (optional)
 # HELMFILE_TEMPLATE_OPTIONS - helmfile template --help
 # HELMFILE_HELMFILE - a complete helmfile.yaml (ignores standard helmfile.yaml and helmfile.d if present based on strategy)
 # HELMFILE_HELMFILE_STRATEGY - REPLACE or INCLUDE
@@ -246,6 +248,12 @@ case $phase in
         INTERNAL_HELM_API_VERSIONS="${INTERNAL_HELM_API_VERSIONS} --api-versions=$v"
       done
       INTERNAL_HELM_TEMPLATE_OPTIONS="${INTERNAL_HELM_TEMPLATE_OPTIONS} ${INTERNAL_HELM_API_VERSIONS}"
+    fi
+
+    if [[ ${HELMFILE_GLOBAL_AWS_ACCOUNT_ID} -ne "" && ${HELMFILE_GLOBAL_AWS_REGION} -ne "" ]]; then
+      export HELM_EXPERIMENTAL_OCI=1 && \
+        aws ecr get-login-password --region ${HELMFILE_GLOBAL_AWS_REGION} | \
+        helm registry login --username AWS --password-stdin ${HELMFILE_GLOBAL_AWS_ACCOUNT_ID}.dkr.ecr.${HELMFILE_GLOBAL_AWS_REGION}.amazonaws.com
     fi
 
     ${helmfile} \
