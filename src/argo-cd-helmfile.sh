@@ -250,7 +250,7 @@ case $phase in
       INTERNAL_HELM_TEMPLATE_OPTIONS="${INTERNAL_HELM_TEMPLATE_OPTIONS} ${INTERNAL_HELM_API_VERSIONS}"
     fi
 
-    if [[ ${HELMREGISTRY_AWS_ACCOUNT_ID} -ne "" && ${HELMREGISTRY_AWS_REGION} -ne "" ]]; then
+    if [[ -n ${HELMREGISTRY_AWS_ACCOUNT_ID} && -n ${HELMREGISTRY_AWS_REGION} ]]; then
       export HELM_EXPERIMENTAL_OCI=1 && \
         aws ecr get-login-password --region ${HELMREGISTRY_AWS_REGION} | \
         helm registry login --username AWS --password-stdin ${HELMREGISTRY_AWS_ACCOUNT_ID}.dkr.ecr.${HELMREGISTRY_AWS_REGION}.amazonaws.com
